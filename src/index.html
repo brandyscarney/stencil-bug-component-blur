@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0" />
+    <title>Stencil Component Starter</title>
+
+    <script type="module" src="/build/stencil-bug-component-blur.esm.js"></script>
+    <script nomodule src="/build/stencil-bug-component-blur.js"></script>
+  </head>
+  <body>
+    <h1>Radio Group</h1>
+    <ion-radio-group id="radio-group"></ion-radio-group>
+  </body>
+
+  <script>
+    setTimeout(() => {
+      // The issue: blue is called on focus of the first radio only reproduces
+      // when the radios are dynamically added with a timeout
+      const radioGroup = document.getElementById('radio-group');
+      for (let i = 0; i < 3; i++) {
+        const radio = document.createElement('ion-radio');
+        radio.value = `radio-${i}`;
+        radio.textContent = `Radio ${i}`;
+        radioGroup.appendChild(radio);
+      }
+    }, 1000);
+
+    // listen for radio `ionBlur` on all radios
+    document.addEventListener('ionBlur', (ev) => {
+      console.log('ionBlur', ev.target);
+    });
+  </script>
+</html>
